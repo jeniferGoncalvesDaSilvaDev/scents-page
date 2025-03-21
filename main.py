@@ -205,6 +205,10 @@ def get_ad(ad_id: int):
 async def dashboard_page():
     return FileResponse("dashboard.html")
 
+@app.get("/token", response_class=HTMLResponse)
+async def token_page():
+    return FileResponse("token.html")
+
 @app.get("/api/stats")
 async def get_api_stats(token: str = Depends(oauth2_scheme)):
     try:

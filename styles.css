@@ -143,6 +143,34 @@ button:hover {
     border-radius: 5px;
 }
 
+/* Token page styles */
+.token-container {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+}
+
+.token-container input {
+    flex: 1;
+    background: #222;
+    color: #fff;
+    padding: 10px;
+    border: 1px solid #555;
+    border-radius: 5px;
+}
+
+.token-container button {
+    width: auto;
+    padding: 10px 20px;
+}
+
+.copy-status {
+    color: #00ffff;
+    height: 20px;
+    margin: 10px 0;
+    text-align: center;
+}
+
 /* Responsividade */
 @media (max-width: 600px) {
     .container {
