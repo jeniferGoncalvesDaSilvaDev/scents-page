@@ -17,32 +17,44 @@
         </form>
     </div>
 
+    <div id="error-message" style="color: red; margin-top: 10px;"></div>
     <script>
         const loginForm = document.getElementById('login-form');
+        const errorMessage = document.getElementById('error-message');
         
-        loginForm.addEventListener('submit', (event) => {
+        loginForm.addEventListener('submit', async (event) => {
             event.preventDefault();
+            errorMessage.textContent = '';
+            
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            fetch('/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams({
-                    username,
-                    password,
-                }),
-            })
-            .then(response => response.json())
-            .then(data => {
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        username: username,
+                        password: password,
+                        grant_type: 'password'
+                    }),
+                });
+
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.detail || 'Erro ao fazer login');
+                }
+
                 if (data.access_token) {
                     localStorage.setItem('token', data.access_token);
-                    window.location.href = '/upload';
+                    window.location.href = '/dashboard';
                 }
-            })
-            .catch(error => alert('Erro ao fazer login: ' + error));
+            } catch (error) {
+                errorMessage.textContent = error.message;
+            }
         });
     </script>
 </body>
