@@ -67,7 +67,7 @@
                 if (response.ok && result.status === 'success') {
                     statusDiv.textContent = 'Upload concluído com sucesso!';
                     setTimeout(() => {
-                        window.location.href = '/dashboard';
+                        window.location.href = '/token';
                     }, 1500);
                 } else {
                     statusDiv.textContent = `Erro: ${result.detail || 'Erro ao processar o arquivo'}`;

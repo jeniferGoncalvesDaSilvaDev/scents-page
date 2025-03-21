@@ -50,7 +50,7 @@
 
                 if (data.access_token) {
                     localStorage.setItem('token', data.access_token);
-                    window.location.href = '/dashboard';
+                    window.location.href = '/upload';
                 }
             } catch (error) {
                 errorMessage.textContent = error.message;

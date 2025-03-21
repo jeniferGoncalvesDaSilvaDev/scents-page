@@ -36,8 +36,8 @@
             const status = document.getElementById('copy-status');
             status.textContent = 'Token copiado!';
             setTimeout(() => {
-                status.textContent = '';
-            }, 2000);
+                window.location.href = '/paste-token';
+            }, 1000);
         }
     </script>
 </body>
