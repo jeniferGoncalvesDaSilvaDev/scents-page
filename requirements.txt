@@ -1,0 +1,11 @@
+fastapi>=0.115.11
+pydantic>=2.10.6
+pyjwt>=2.10.1
+python-multipart>=0.0.20
+uvicorn>=0.34.0
+fastapi
+uvicorn
+slowapi
+pytz
+fastapi
+uvicorn
