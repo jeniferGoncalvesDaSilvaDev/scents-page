@@ -1,0 +1,155 @@
+/* Estilo Geral */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #0d0d0d;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+/* Contêiner principal */
+.file-upload-container {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.file-types {
+    color: #666;
+    font-size: 0.9em;
+    margin-top: 10px;
+}
+
+#upload-status {
+    margin-top: 15px;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.container {
+    width: 90%;
+    max-width: 600px;
+    background: rgba(20, 20, 20, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+    text-align: center;
+}
+
+/* Inputs e Botões */
+input, button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+input {
+    background: #222;
+    color: #fff;
+    border: 1px solid #555;
+}
+
+button {
+    background: linear-gradient(90deg, #00ffff, #0077ff);
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: linear-gradient(90deg, #0077ff, #00ffff);
+}
+
+/* Menu de navegação */
+.menu {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.menu a {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    background: rgba(0, 255, 255, 0.1);
+    transition: 0.3s;
+}
+
+.menu a:hover {
+    background: rgba(0, 255, 255, 0.2);
+}
+
+/* Documentação */
+.docs {
+    max-width: 800px;
+}
+
+.endpoint {
+    text-align: left;
+    margin-top: 20px;
+}
+
+.endpoint-item {
+    background: rgba(20, 20, 20, 0.5);
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.endpoint-item pre {
+    background: #222;
+    padding: 10px;
+    border-radius: 3px;
+}
+
+.token-info {
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.token-info pre {
+    background: #222;
+    padding: 10px;
+    border-radius: 3px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.file-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    margin: 5px 0;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .container {
+        width: 95%;
+    }
+
+    .menu {
+        flex-direction: column;
+    }
+}

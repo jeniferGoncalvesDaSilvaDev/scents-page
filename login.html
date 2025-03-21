@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scents Ads - Login</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Login Scents Ads</h1>
+        <form id="login-form">
+            <input type="text" id="username" placeholder="Nome de Usuário" required>
+            <input type="password" id="password" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('login-form');
+        
+        loginForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    username,
+                    password,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.access_token) {
+                    localStorage.setItem('token', data.access_token);
+                    window.location.href = '/upload';
+                }
+            })
+            .catch(error => alert('Erro ao fazer login: ' + error));
+        });
+    </script>
+</body>
+</html>

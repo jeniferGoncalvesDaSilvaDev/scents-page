@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scents Ads - Upload</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Upload de Mídia</h1>
+        <p>Aplique a tecnologia Scents ao seu conteúdo</p>
+
+        <form id="upload-form" enctype="multipart/form-data">
+            <div class="file-upload-container">
+                <h3>Upload de Áudio</h3>
+                <input type="file" 
+                       id="audio-upload" 
+                       name="audio" 
+                       accept="audio/mp3,video/mp4"
+                       required>
+                <p class="file-types">Formatos aceitos: MP3, MP4</p>
+            </div>
+            
+            <div class="file-upload-container">
+                <h3>Upload de Mídia Visual</h3>
+                <input type="file" 
+                       id="media-upload" 
+                       name="media" 
+                       accept="image/*,video/*,.gif"
+                       required>
+                <p class="file-types">Formatos aceitos: imagens, vídeos, GIFs</p>
+            </div>
+            <button type="submit">Fazer Upload</button>
+        </form>
+        <div id="upload-status"></div>
+    </div>
+
+    <script>
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = '/login';
+        }
+
+        document.getElementById('upload-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const statusDiv = document.getElementById('upload-status');
+            const audioFile = document.getElementById('audio-upload').files[0];
+            const mediaFile = document.getElementById('media-upload').files[0];
+            const formData = new FormData();
+            formData.append('audio', audioFile);
+            formData.append('media', mediaFile);
+
+            try {
+                statusDiv.textContent = 'Enviando arquivo...';
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: formData
+                });
+
+                const result = await response.json();
+                
+                if (response.ok && result.status === 'success') {
+                    statusDiv.textContent = 'Upload concluído com sucesso!';
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 1500);
+                } else {
+                    statusDiv.textContent = `Erro: ${result.detail || 'Erro ao processar o arquivo'}`;
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                statusDiv.textContent = 'Erro de conexão ao enviar arquivo';
+            }
+        });
+
+        // Preview dos arquivos selecionados
+        document.getElementById('audio-upload').addEventListener('change', function(e) {
+            const fileName = e.target.files[0]?.name || 'Nenhum arquivo selecionado';
+            e.target.parentElement.querySelector('.file-types').textContent = `Arquivo de áudio: ${fileName}`;
+        });
+
+        document.getElementById('media-upload').addEventListener('change', function(e) {
+            const fileName = e.target.files[0]?.name || 'Nenhum arquivo selecionado';
+            e.target.parentElement.querySelector('.file-types').textContent = `Arquivo de mídia: ${fileName}`;
+        });
+    </script>
+</body>
+</html>

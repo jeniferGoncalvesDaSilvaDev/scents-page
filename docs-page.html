@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scents Ads - Documentação</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container docs">
+        <h1>Documentação da API</h1>
+        <nav class="menu">
+            <a href="/my-uploads">Meus Uploads</a>
+            <a href="/upload">Novo Upload</a>
+        </nav>
+        
+        <section class="endpoint">
+            <h2>Endpoints</h2>
+            
+            <div class="endpoint-item">
+                <h3>POST /register</h3>
+                <p>Registra um novo usuário</p>
+                <pre>Body: { "username": "string", "password": "string" }</pre>
+                <p>Retorno: Redireciona para /login</p>
+            </div>
+
+            <div class="endpoint-item">
+                <h3>POST /login</h3>
+                <p>Autenticação do usuário</p>
+                <pre>Form Data: username, password</pre>
+                <p>Retorno: { "access_token": "string", "token_type": "bearer" }</p>
+            </div>
+
+            <div class="endpoint-item">
+                <h3>GET /check-auth</h3>
+                <p>Verifica autenticação</p>
+                <pre>Header: Authorization: Bearer {token}</pre>
+                <p>Retorno: { "authenticated": true }</p>
+            </div>
+
+            <div class="endpoint-item">
+                <h3>POST /upload</h3>
+                <p>Upload de arquivo de áudio para conversão</p>
+                <pre>Requer: 
+- Arquivo de áudio (FormData)
+- Header: Authorization: Bearer {token}</pre>
+                <p>Retorno: { "message": "string", "filename": "string" }</p>
+            </div>
+            
+            <div class="endpoint-item">
+                <h3>POST /apply-scents/{ad_id}</h3>
+                <p>Aplica efeitos Scents ao anúncio</p>
+                <pre>Path: ad_id (número)
+Header: Authorization: Bearer {token}</pre>
+                <p>Retorno: { "message": "string", "ad_id": number }</p>
+            </div>
+
+            <div class="endpoint-item">
+                <h3>GET /ad/{ad_id}</h3>
+                <p>Obtém informações de um anúncio</p>
+                <pre>Path: ad_id (número)</pre>
+                <p>Retorno: { "ad_id": number, "filename": "string", "scents_applied": boolean }</p>
+            </div>
+
+            <div class="endpoint-item">
+                <h3>GET /stats/{ad_id}</h3>
+                <p>Obtém estatísticas de um anúncio</p>
+                <pre>Path: ad_id (número)</pre>
+                <p>Retorno: { "ad_id": number, "views": number }</p>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

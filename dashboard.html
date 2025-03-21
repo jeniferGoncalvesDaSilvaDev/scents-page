@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scents Ads - Dashboard</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Dashboard</h1>
+        <nav class="menu">
+            <a href="/upload">Novo Upload</a>
+            <a href="/docs-page">Documentação</a>
+        </nav>
+
+        <div class="token-container">
+            <h3>Seu Token de Acesso:</h3>
+            <div class="token-input-group">
+                <input type="text" id="token-input" readonly>
+                <button onclick="copyToken()">Copiar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = '/login';
+        }
+
+        const tokenInput = document.getElementById('token-input');
+        tokenInput.value = token;
+
+        function copyToken() {
+            tokenInput.select();
+            document.execCommand('copy');
+            alert('Token copiado!');
+        }
+    </script>
+</body>
+</html>
