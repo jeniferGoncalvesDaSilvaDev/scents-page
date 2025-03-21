@@ -209,6 +209,10 @@ async def dashboard_page():
 async def token_page():
     return FileResponse("token.html")
 
+@app.get("/paste-token", response_class=HTMLResponse)
+async def paste_token_page():
+    return FileResponse("paste-token.html")
+
 @app.get("/api/stats")
 async def get_api_stats(token: str = Depends(oauth2_scheme)):
     try:
