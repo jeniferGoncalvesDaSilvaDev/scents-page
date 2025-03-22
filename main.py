@@ -221,6 +221,31 @@ async def download_page():
 async def download_file(filename: str):
     file_path = os.path.join("uploads", filename)
     if os.path.exists(file_path):
+        if filename.startswith("scents_"):
+            # Extrai o áudio da imagem
+            img = Image.open(file_path)
+            pixels = list(img.getdata())
+            audio_bits = ""
+            
+            # Extrai os bits do áudio dos pixels
+            for pixel in pixels[:len(pixels)//3]:
+                audio_bits += str(pixel[0] & 1)
+                audio_bits += str(pixel[1] & 1)
+                audio_bits += str(pixel[2] & 1)
+            
+            # Converte bits para bytes
+            audio_bytes = bytearray()
+            for i in range(0, len(audio_bits), 8):
+                if i + 8 <= len(audio_bits):
+                    byte = int(audio_bits[i:i+8], 2)
+                    audio_bytes.append(byte)
+            
+            # Salva o áudio extraído
+            extracted_audio = f"uploads/extracted_{filename.replace('scents_media_', 'audio_')}.mp3"
+            with open(extracted_audio, 'wb') as f:
+                f.write(audio_bytes)
+            
+            return FileResponse(extracted_audio)
         return FileResponse(file_path, filename=filename)
     raise HTTPException(status_code=404, detail="Arquivo não encontrado")
 
