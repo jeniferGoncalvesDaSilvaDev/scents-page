@@ -219,6 +219,7 @@ async def download_page():
 
 @app.get("/download/{filename}")
 async def download_file(filename: str):
+    from PIL import Image
     file_path = os.path.join("uploads", filename)
     if os.path.exists(file_path):
         if filename.startswith("scents_"):
