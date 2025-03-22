@@ -230,11 +230,35 @@ async def apply_scents(token: str = Depends(oauth2_scheme)):
         # Cria o arquivo combinado
         output_path = os.path.join("uploads", f"scents_{media_file}")
         
-        # Combina os arquivos (simplificado para demonstração)
-        with open(audio_path, 'rb') as audio, open(media_path, 'rb') as media:
-            combined = audio.read() + media.read()
-            with open(output_path, 'wb') as output:
-                output.write(combined)
+        # Implementa esteganografia real
+        img = Image.open(media_path)
+        with open(audio_path, 'rb') as audio:
+            audio_data = audio.read()
+        
+        # Converte os dados do áudio em bits
+        audio_bits = ''.join(format(byte, '08b') for byte in audio_data)
+        
+        # Converte a imagem para RGB se não estiver
+        if img.mode != 'RGB':
+            img = img.convert('RGB')
+        
+        pixels = list(img.getdata())
+        newPixels = []
+        
+        # Insere os bits do áudio nos bits menos significativos dos pixels
+        for i, pixel in enumerate(pixels):
+            if i < len(audio_bits) // 3:
+                r = (pixel[0] & ~1) | int(audio_bits[i*3])
+                g = (pixel[1] & ~1) | int(audio_bits[i*3 + 1])
+                b = (pixel[2] & ~1) | int(audio_bits[i*3 + 2])
+                newPixels.append((r,g,b))
+            else:
+                newPixels.append(pixel)
+                
+        # Cria nova imagem com os dados escondidos
+        newImg = Image.new(img.mode, img.size)
+        newImg.putdata(newPixels)
+        newImg.save(output_path)
         
         return {
             "status": "success", 
