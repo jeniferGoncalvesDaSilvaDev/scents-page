@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -32,12 +33,10 @@
                     const div = document.createElement('div');
                     div.style.margin = '20px 0';
 
-                    const link = document.createElement('a');
-                    link.href = `/download/${file.filename}`;
-                    link.className = 'main-button';
-                    link.style.display = 'block';
-                    link.style.margin = '10px 0';
-                    link.textContent = `Baixar ${file.filename}`;
+                    const img = document.createElement('img');
+                    img.src = `/download/${file.filename}`;
+                    img.style.maxWidth = '100%';
+                    img.style.marginBottom = '10px';
 
                     const audio = document.createElement('audio');
                     audio.controls = true;
@@ -47,8 +46,17 @@
                     source.src = `/download/${file.filename}`;
                     audio.appendChild(source);
 
-                    div.appendChild(link);
+                    const link = document.createElement('a');
+                    link.href = `/download/${file.filename}`;
+                    link.className = 'main-button';
+                    link.style.display = 'block';
+                    link.style.margin = '10px 0';
+                    link.download = file.filename;
+                    link.textContent = `Baixar ${file.filename}`;
+
+                    div.appendChild(img);
                     div.appendChild(audio);
+                    div.appendChild(link);
                     fileList.appendChild(div);
                 }
             });
