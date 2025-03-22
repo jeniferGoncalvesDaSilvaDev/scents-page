@@ -218,6 +218,14 @@ async def apply_scents(token: str = Depends(oauth2_scheme)):
     try:
         import os
         from PIL import Image
+        
+        # Verifica o tipo de arquivo
+        media_file = next(f for f in os.listdir("uploads") if f.startswith("media_"))
+        if not media_file.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp')):
+            raise HTTPException(
+                status_code=400, 
+                detail="No momento, apenas imagens (PNG, JPG, JPEG, BMP) são suportadas"
+            )
         import wave
         
         audio_file = next(f for f in os.listdir("uploads") if f.startswith("audio_"))
