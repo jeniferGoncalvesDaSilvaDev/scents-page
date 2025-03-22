@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scents Ads - Aplicar Scents</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Aplicar Scents ao Anúncio</h1>
+        <div id="uploads-list"></div>
+        <div id="status-message" class="copy-status"></div>
+    </div>
+
+    <script>
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = '/login';
+        }
+
+        // Listar uploads
+        async function fetchUploads() {
+            try {
+                const response = await fetch('/list-uploads', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const uploads = await response.json();
+                const uploadsDiv = document.getElementById('uploads-list');
+                
+                uploads.forEach(file => {
+                    const fileDiv = document.createElement('div');
+                    fileDiv.className = 'upload-item';
+                    fileDiv.innerHTML = `
+                        <p>${file.filename}</p>
+                        <button onclick="applyScents('${file.filename}')">Aplicar Scents</button>
+                    `;
+                    uploadsDiv.appendChild(fileDiv);
+                });
+            } catch (error) {
+                console.error('Erro ao listar uploads:', error);
+            }
+        }
+
+        async function applyScents(filename) {
+            try {
+                const response = await fetch('/apply-scents', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ filename })
+                });
+                
+                if (response.ok) {
+                    document.getElementById('status-message').textContent = 'Scents aplicado com sucesso!';
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 1500);
+                } else {
+                    throw new Error('Erro ao aplicar Scents');
+                }
+            } catch (error) {
+                document.getElementById('status-message').textContent = 'Erro ao aplicar Scents';
+            }
+        }
+
+        fetchUploads();
+    </script>
+</body>
+</html>

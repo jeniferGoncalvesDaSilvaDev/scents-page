@@ -209,6 +209,22 @@ async def dashboard_page():
 async def token_page():
     return FileResponse("token.html")
 
+@app.get("/apply-scents", response_class=HTMLResponse)
+async def apply_scents_page():
+    return FileResponse("apply-scents.html")
+
+@app.post("/apply-scents")
+async def apply_scents(filename: str, token: str = Depends(oauth2_scheme)):
+    try:
+        audio_file = next(f for f in os.listdir("uploads") if f.startswith("audio_"))
+        media_file = next(f for f in os.listdir("uploads") if f.startswith("media_"))
+        
+        # Aqui você pode implementar a lógica para combinar o áudio com a imagem
+        # Por enquanto, vamos simular o sucesso
+        return {"status": "success", "message": "Scents aplicado com sucesso"}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
 @app.get("/paste-token", response_class=HTMLResponse)
 async def paste_token_page():
     return FileResponse("paste-token.html")
