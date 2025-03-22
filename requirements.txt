@@ -12,3 +12,5 @@ uvicorn
 Pillow
 Pillow
 Pillow
+numpy
+opencv-python

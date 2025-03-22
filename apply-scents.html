@@ -34,7 +34,7 @@
                 if (response.ok) {
                     document.getElementById('status-message').textContent = 'Scents aplicado com sucesso!';
                     setTimeout(() => {
-                        window.location.href = '/dashboard';
+                        window.location.href = '/download.html';
                     }, 1500);
                 } else {
                     throw new Error(result.detail || 'Erro ao aplicar Scents');

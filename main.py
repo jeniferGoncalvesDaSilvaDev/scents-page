@@ -213,19 +213,24 @@ async def token_page():
 async def apply_scents_page():
     return FileResponse("apply-scents.html")
 
+@app.get("/download/{filename}")
+async def download_file(filename: str):
+    file_path = os.path.join("uploads", filename)
+    if os.path.exists(file_path):
+        return FileResponse(file_path, filename=filename)
+    raise HTTPException(status_code=404, detail="Arquivo não encontrado")
+
 @app.post("/apply-scents")
 async def apply_scents(token: str = Depends(oauth2_scheme)):
     try:
         import os
         from PIL import Image
+        import cv2
+        import numpy as np
         
         # Verifica o tipo de arquivo
         media_file = next(f for f in os.listdir("uploads") if f.startswith("media_"))
-        if not media_file.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp')):
-            raise HTTPException(
-                status_code=400, 
-                detail="No momento, apenas imagens (PNG, JPG, JPEG, BMP) são suportadas"
-            )
+        file_ext = media_file.lower().split('.')[-1]
         import wave
         
         audio_file = next(f for f in os.listdir("uploads") if f.startswith("audio_"))
