@@ -216,13 +216,12 @@ async def apply_scents_page():
 @app.post("/apply-scents")
 async def apply_scents(token: str = Depends(oauth2_scheme)):
     try:
-        audio_file = next(f for f in os.listdir("uploads") if f.startswith("audio_"))
-        media_file = next(f for f in os.listdir("uploads") if f.startswith("media_"))
-        
-        # Combina o áudio com a imagem usando steganografia
+        import os
         from PIL import Image
         import wave
-        import os
+        
+        audio_file = next(f for f in os.listdir("uploads") if f.startswith("audio_"))
+        media_file = next(f for f in os.listdir("uploads") if f.startswith("media_"))
 
         # Lê o arquivo de áudio
         audio_path = os.path.join("uploads", audio_file)
