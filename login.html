@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -21,11 +20,11 @@
     <script>
         const loginForm = document.getElementById('login-form');
         const errorMessage = document.getElementById('error-message');
-        
+
         loginForm.addEventListener('submit', async (event) => {
             event.preventDefault();
             errorMessage.textContent = '';
-            
+
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
@@ -43,7 +42,7 @@
                 });
 
                 const data = await response.json();
-                
+
                 if (!response.ok) {
                     throw new Error(data.detail || 'Erro ao fazer login');
                 }

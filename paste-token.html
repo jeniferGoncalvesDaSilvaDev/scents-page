@@ -22,7 +22,7 @@
             const token = document.getElementById('token-input').value;
             if (token) {
                 localStorage.setItem('token', token);
-                window.location.href = '/dashboard';
+                window.location.href = '/apply-scents';
             } else {
                 document.getElementById('status-message').textContent = 'Por favor, insira um token';
             }
