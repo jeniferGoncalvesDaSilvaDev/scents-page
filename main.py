@@ -214,7 +214,7 @@ async def apply_scents_page():
     return FileResponse("apply-scents.html")
 
 @app.post("/apply-scents")
-async def apply_scents(filename: str, token: str = Depends(oauth2_scheme)):
+async def apply_scents(token: str = Depends(oauth2_scheme)):
     try:
         audio_file = next(f for f in os.listdir("uploads") if f.startswith("audio_"))
         media_file = next(f for f in os.listdir("uploads") if f.startswith("media_"))

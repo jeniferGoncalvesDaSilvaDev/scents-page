@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -10,7 +9,7 @@
 <body>
     <div class="container">
         <h1>Aplicar Scents ao Anúncio</h1>
-        <div id="uploads-list"></div>
+        <button onclick="applyScents()" class="main-button">Aplicar Scents</button>
         <div id="status-message" class="copy-status"></div>
     </div>
 
@@ -20,56 +19,30 @@
             window.location.href = '/login';
         }
 
-        // Listar uploads
-        async function fetchUploads() {
-            try {
-                const response = await fetch('/list-uploads', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-                const uploads = await response.json();
-                const uploadsDiv = document.getElementById('uploads-list');
-                
-                uploads.forEach(file => {
-                    const fileDiv = document.createElement('div');
-                    fileDiv.className = 'upload-item';
-                    fileDiv.innerHTML = `
-                        <p>${file.filename}</p>
-                        <button onclick="applyScents('${file.filename}')">Aplicar Scents</button>
-                    `;
-                    uploadsDiv.appendChild(fileDiv);
-                });
-            } catch (error) {
-                console.error('Erro ao listar uploads:', error);
-            }
-        }
-
-        async function applyScents(filename) {
+        async function applyScents() {
             try {
                 const response = await fetch('/apply-scents', {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ filename })
+                    }
                 });
-                
+
+                const result = await response.json();
+
                 if (response.ok) {
                     document.getElementById('status-message').textContent = 'Scents aplicado com sucesso!';
                     setTimeout(() => {
                         window.location.href = '/dashboard';
                     }, 1500);
                 } else {
-                    throw new Error('Erro ao aplicar Scents');
+                    throw new Error(result.detail || 'Erro ao aplicar Scents');
                 }
             } catch (error) {
-                document.getElementById('status-message').textContent = 'Erro ao aplicar Scents';
+                document.getElementById('status-message').textContent = 'Erro ao aplicar Scents: ' + error.message;
             }
         }
-
-        fetchUploads();
     </script>
 </body>
 </html>
