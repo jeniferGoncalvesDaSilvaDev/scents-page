@@ -213,6 +213,10 @@ async def token_page():
 async def apply_scents_page():
     return FileResponse("apply-scents.html")
 
+@app.get("/download.html", response_class=HTMLResponse)
+async def download_page():
+    return FileResponse("download.html")
+
 @app.get("/download/{filename}")
 async def download_file(filename: str):
     file_path = os.path.join("uploads", filename)
