@@ -9,3 +9,6 @@ slowapi
 pytz
 fastapi
 uvicorn
+Pillow
+Pillow
+Pillow
